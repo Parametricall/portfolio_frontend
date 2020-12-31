@@ -4,7 +4,7 @@ import { formatDate, getData, updateData } from '../../utilities';
 import { Form, Col, Container, Button } from 'react-bootstrap';
 
 import { useParams } from 'react-router-dom';
-import { FETCH_USERS_URL } from '../../constants';
+import { FETCH_USERS_URL, RETRIEVE_USERS_URL, UPDATE_USERS_URL } from '../../constants';
 
 
 function UserDetail() {
@@ -22,7 +22,7 @@ function UserDetail() {
   const [dateJoined, setDateJoined] = useState(null);
 
   const getUser = () => {
-    getData(`${FETCH_USERS_URL}${userId}/`)
+    getData(`${RETRIEVE_USERS_URL}${userId}/`)
       .then(json => {
         setUsername(json.username);
         setFirstName(json.first_name);
@@ -52,7 +52,7 @@ function UserDetail() {
       date_joined: dateJoined,
       last_login: lastLogin
     }
-    updateData(`${FETCH_USERS_URL}${userId}/`, data)
+    updateData(`${UPDATE_USERS_URL}${userId}/`, data)
       .then(json => {
         setUsername(json.username);
         setFirstName(json.first_name);

@@ -7,8 +7,30 @@ export function formatDate(dateString) {
 }
 
 export async function getData(url = FETCH_USERS_URL) {
-  const response = await fetch(url);
+  const response = await fetch(url,
+    {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        ...getTokenFromStorage()
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrer: 'no-referrer', // no-referrer, *client
+    });
   return await response.json();
+}
+
+function getTokenFromStorage() {
+  let token = localStorage.getItem('user');
+
+  if (token) {
+    token = JSON.parse(token).token;
+    return {'Authorization': `Token ${token}`};
+  }
+  return null;
 }
 
 export async function postData(url, data) {
@@ -19,7 +41,8 @@ export async function postData(url, data) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...getTokenFromStorage()
     },
     redirect: 'follow', // manual, *follow, error
     referrer: 'no-referrer', // no-referrer, *client
@@ -37,7 +60,8 @@ export async function updateData(url, data) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...getTokenFromStorage()
     },
     redirect: 'follow', // manual, *follow, error
     referrer: 'no-referrer', // no-referrer, *client
@@ -55,7 +79,8 @@ export async function deleteData(url) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...getTokenFromStorage()
     },
     redirect: 'follow', // manual, *follow, error
     referrer: 'no-referrer' // no-referrer, *client

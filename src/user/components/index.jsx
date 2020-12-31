@@ -3,6 +3,7 @@ import { useRouteMatch, Switch, Route } from 'react-router-dom';
 import CreateUser from './CreateUser';
 import UserDetail from './UserDetail';
 import UserList from './UserList';
+import SignUp from './SignUp';
 
 
 function User() {
@@ -14,8 +15,11 @@ function User() {
         <Route exact path={`${path}/create_user`}>
           <CreateUser/>
         </Route>
+        <Route path={`/users/signup/`}>
+          <SignUp/>
+        </Route>
         <Route path={`${path}/:userId/`}>
-          <UserDetail />
+          <UserDetail/>
         </Route>
         <Route exact path={path}>
           <UserList/>

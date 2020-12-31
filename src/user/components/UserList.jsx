@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { deleteData, getData } from '../../utilities';
-import { FETCH_USERS_URL } from '../../constants';
+import { DESTROY_USERS_URL, FETCH_USERS_URL } from '../../constants';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { Button, Col, Container, Form, InputGroup, ListGroup, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -24,7 +24,7 @@ function UserList() {
   const deleteUsers = async () => {
 
     for (const id of selected) {
-      await deleteData(`${FETCH_USERS_URL}${id}/`)
+      await deleteData(`${DESTROY_USERS_URL}${id}/`)
       .catch(e => console.log(e));
     }
     fetchData();
