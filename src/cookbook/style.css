@@ -1,0 +1,40 @@
+.carousel {
+    width: 900px;
+    height: 500px;
+    margin: auto;
+}
+
+.recipe-card {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+
+    max-width: 30%;
+    height: auto;
+}
+
+.recipe-card:hover {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+}
+
+.recipe-card > a {
+    text-decoration: none;
+    color: black;
+}
+
+.recipe-card > a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.recipe-card-checkbox {
+    margin: 10px;
+}
+
+.recipe-card-body {
+    padding-top: 0 !important;
+}
+
+.recipe-card-checkbox-col {
+    text-align: right;
+}

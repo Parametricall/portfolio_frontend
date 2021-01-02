@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { postData } from '../../utilities';
 import { CREATE_USER_URL } from '../../constants';
 import { Redirect } from 'react-router-dom';

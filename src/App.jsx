@@ -14,6 +14,8 @@ import Logout from './user/components/Logout';
 import { postData } from './utilities';
 import { GET_TOKEN_URL } from './constants';
 import { NavDropdown } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+import Cookbook from './cookbook/components'
 
 function App() {
   const [user, setUser] = useState(null);
@@ -74,6 +76,9 @@ function App() {
         <Route exact path="/home">
           <LandingPage/>
         </Route>
+        <Route path="/cookbook">
+          <Cookbook />
+        </Route>
         <Route path="/users">
           <User/>
         </Route>
@@ -82,6 +87,9 @@ function App() {
         </Route>
         <Route path="/logout">
           <Logout logout={logout}/>
+        </Route>
+        <Route path="/">
+          <Redirect to="/home" />
         </Route>
       </Switch>
     </Router>

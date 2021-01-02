@@ -4,7 +4,7 @@ import { formatDate, getData, updateData } from '../../utilities';
 import { Form, Col, Container, Button } from 'react-bootstrap';
 
 import { useParams } from 'react-router-dom';
-import { FETCH_USERS_URL, RETRIEVE_USERS_URL, UPDATE_USERS_URL } from '../../constants';
+import { RETRIEVE_USERS_URL, UPDATE_USERS_URL } from '../../constants';
 
 
 function UserDetail() {
