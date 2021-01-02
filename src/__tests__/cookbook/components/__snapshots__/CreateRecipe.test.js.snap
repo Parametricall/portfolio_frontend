@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateRecipe renders correctly 1`] = `
+<Container
+  className="mt-5"
+  fluid={false}
+>
+  <Form
+    inline={false}
+  >
+    <FormGroup>
+      <FormLabel
+        column={false}
+        srOnly={false}
+      >
+        Recipe Name
+      </FormLabel>
+      <FormControl
+        onChange={[Function]}
+        value=""
+      />
+    </FormGroup>
+    <h3>
+      Ingredients
+    </h3>
+    <hr />
+    <h4>
+      Food
+    </h4>
+    <FormGroup>
+      <FormLabel
+        column={false}
+        srOnly={false}
+      >
+        Food
+      </FormLabel>
+      <FormControl
+        onChange={[Function]}
+        value={Array []}
+      />
+    </FormGroup>
+    <FormGroup>
+      <FormLabel
+        column={false}
+        srOnly={false}
+      >
+        Quantity
+      </FormLabel>
+      <FormControl
+        onChange={[Function]}
+        value={Array []}
+      />
+    </FormGroup>
+    <Button
+      active={false}
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+      variant="primary"
+    >
+      Submit
+    </Button>
+  </Form>
+</Container>
+`;

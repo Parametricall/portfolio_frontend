@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserList renders correctly 1`] = `
+<Container
+  className="mt-5"
+  fluid={false}
+>
+  <Row
+    noGutters={false}
+  >
+    <Col>
+      <Component
+        to="/create_user"
+      >
+        <Button
+          active={false}
+          disabled={false}
+          variant="primary"
+        >
+          Create User
+        </Button>
+      </Component>
+      <Button
+        active={false}
+        disabled={false}
+        onClick={[Function]}
+        variant="danger"
+      >
+        Delete Selected
+      </Button>
+    </Col>
+  </Row>
+  <Row
+    noGutters={false}
+  >
+    <Col>
+      <ListGroup />
+    </Col>
+  </Row>
+</Container>
+`;
