@@ -18,7 +18,7 @@ export async function getData(url = FETCH_USERS_URL) {
         ...getTokenFromStorage()
       },
       redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // no-referrer, *client
+      referrer: 'no-referrer' // no-referrer, *client
     });
   return await response.json();
 }

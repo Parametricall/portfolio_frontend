@@ -4,10 +4,17 @@ import CreateUser from './CreateUser';
 import UserDetail from './UserDetail';
 import UserList from './UserList';
 import SignUp from './SignUp';
+import { getData } from '../../utilities';
+import { FETCH_USERS_URL } from '../../constants';
 
 
 function User() {
   let {path} = useRouteMatch();
+
+  const fetchData = async () => {
+    const json = await getData(FETCH_USERS_URL);
+    return json;
+  };
 
   return (
     <div>
@@ -22,7 +29,7 @@ function User() {
           <UserDetail/>
         </Route>
         <Route exact path={path}>
-          <UserList/>
+          <UserList fetchData={fetchData}/>
         </Route>
       </Switch>
     </div>
