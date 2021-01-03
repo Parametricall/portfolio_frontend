@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders correctly 1`] = `
+<BrowserRouter>
+  <Navbar
+    bg="light"
+    collapseOnSelect={false}
+    expand="lg"
+    variant="light"
+  >
+    <NavbarToggle
+      aria-controls="basic-navbar-nav"
+      label="Toggle navigation"
+    />
+    <NavbarCollapse
+      id="basic-navbar-nav"
+    />
+    <Nav
+      className="mr-auto"
+      fill={false}
+      justify={false}
+    >
+      <withRouter(LinkContainer)
+        to="/home"
+      >
+        <NavLink
+          as={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "displayName": "SafeAnchor",
+              "render": [Function],
+            }
+          }
+          disabled={false}
+        >
+          Home
+        </NavLink>
+      </withRouter(LinkContainer)>
+      <withRouter(LinkContainer)
+        className="app-login"
+        to="/login"
+      >
+        <NavLink
+          as={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "displayName": "SafeAnchor",
+              "render": [Function],
+            }
+          }
+          disabled={false}
+        >
+          Login
+        </NavLink>
+      </withRouter(LinkContainer)>
+    </Nav>
+  </Navbar>
+  <Switch>
+    <Route
+      exact={true}
+      path="/home"
+    >
+      <LandingPage />
+    </Route>
+    <Route
+      path="/cookbook"
+    >
+      <User />
+    </Route>
+    <Route
+      path="/users"
+    >
+      <User />
+    </Route>
+    <Route
+      path="/login"
+    >
+      <Login
+        handleLogin={[Function]}
+      />
+    </Route>
+    <Route
+      path="/logout"
+    >
+      <Logout
+        logout={[Function]}
+      />
+    </Route>
+    <Route
+      path="/"
+    >
+      <Redirect
+        to="/home"
+      />
+    </Route>
+  </Switch>
+</BrowserRouter>
+`;

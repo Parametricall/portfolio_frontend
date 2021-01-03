@@ -9,8 +9,8 @@ exports[`UserList renders correctly 1`] = `
     noGutters={false}
   >
     <Col>
-      <Component
-        to="/create_user"
+      <withRouter(LinkContainer)
+        to="/users/create_user"
       >
         <Button
           active={false}
@@ -19,7 +19,7 @@ exports[`UserList renders correctly 1`] = `
         >
           Create User
         </Button>
-      </Component>
+      </withRouter(LinkContainer)>
       <Button
         active={false}
         disabled={false}

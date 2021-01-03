@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Landing page renders correctly 1`] = `
+<Container
+  fluid={false}
+>
+  <CardDeck
+    className="mt-5"
+  >
+    <Card
+      body={false}
+    >
+      <CardImg
+        src="food.png"
+        variant="top"
+      />
+      <CardBody>
+        <CardTitle>
+          Cookbook (Coming Soon)
+        </CardTitle>
+        <CardText>
+          A simple cookbook to help keep track of your favourite recipes.
+        </CardText>
+      </CardBody>
+      <CardFooter>
+        <withRouter(LinkContainer)
+          to="/cookbook"
+        >
+          <Button
+            active={false}
+            disabled={false}
+            variant="primary"
+          >
+            Open App
+          </Button>
+        </withRouter(LinkContainer)>
+      </CardFooter>
+    </Card>
+    <Card
+      body={false}
+    >
+      <CardImg
+        src="chat_bot.png"
+        variant="top"
+      />
+      <CardBody>
+        <CardTitle>
+          Chat System (Coming Soon)
+        </CardTitle>
+        <CardText>
+          An experimental chat system to talk to other active users.
+        </CardText>
+      </CardBody>
+      <CardFooter>
+        <Button
+          active={false}
+          disabled={false}
+          variant="primary"
+        >
+          Go somewhere
+        </Button>
+      </CardFooter>
+    </Card>
+    <Card
+      body={false}
+    >
+      <CardImg
+        src="phase_10.png"
+        variant="top"
+      />
+      <CardBody>
+        <CardTitle>
+          Phase 10 (Coming in 2021)
+        </CardTitle>
+        <CardText>
+          My attempt at making a version of the Phase 10 card game, which will suport multiple players.
+        </CardText>
+      </CardBody>
+      <CardFooter>
+        <Button
+          active={false}
+          disabled={false}
+          variant="primary"
+        >
+          Go somewhere
+        </Button>
+      </CardFooter>
+    </Card>
+  </CardDeck>
+  <CardDeck
+    className="mt-5"
+  >
+    <Card
+      body={false}
+    >
+      <CardBody>
+        <CardTitle>
+          Todo List (Coming in 2021)
+        </CardTitle>
+        <CardText>
+          A basic todo list app to help keep track of important tasks.
+        </CardText>
+      </CardBody>
+      <CardFooter>
+        <Button
+          active={false}
+          disabled={false}
+          variant="primary"
+        >
+          Go somewhere
+        </Button>
+      </CardFooter>
+    </Card>
+    <Card
+      body={false}
+    >
+      <CardBody>
+        <CardTitle>
+          Web Scraper (Coming in 2021)
+        </CardTitle>
+        <CardText>
+          An app that will scrap the internet for certain information. Maybe cheapest airplane prices, or an alarm for when a certain item goes on sale.
+        </CardText>
+      </CardBody>
+      <CardFooter>
+        <Button
+          active={false}
+          disabled={false}
+          variant="primary"
+        >
+          Go somewhere
+        </Button>
+      </CardFooter>
+    </Card>
+  </CardDeck>
+</Container>
+`;

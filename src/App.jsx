@@ -42,7 +42,6 @@ function App() {
     localStorage.setItem('user', JSON.stringify(response));
   };
 
-  console.log(user);
   return (
     <Router>
       <Navbar bg="light" expand="lg">
@@ -65,7 +64,7 @@ function App() {
               </LinkContainer>
             </NavDropdown>
             :
-            <LinkContainer to="/login">
+            <LinkContainer className='app-login' to="/login">
               <Nav.Link>Login</Nav.Link>
             </LinkContainer>
           }
