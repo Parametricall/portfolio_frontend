@@ -16,6 +16,7 @@ import { GET_TOKEN_URL } from './constants';
 import { NavDropdown } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import Cookbook from './cookbook/components'
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -78,11 +79,11 @@ function App() {
         <Route path="/cookbook">
           <Cookbook />
         </Route>
-        <Route path="/users">
+        <ProtectedRoute path="/users">
           <User/>
-        </Route>
+        </ProtectedRoute>
         <Route path="/login">
-          <Login handleLogin={handleLogin}/>
+          <Login handleLogin={handleLogin} setUser={setUser}/>
         </Route>
         <Route path="/logout">
           <Logout logout={logout}/>

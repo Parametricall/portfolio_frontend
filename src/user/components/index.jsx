@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteMatch, Switch, Route } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import CreateUser from './CreateUser';
 import UserDetail from './UserDetail';
 import UserList from './UserList';
@@ -12,8 +12,7 @@ function User() {
   let {path} = useRouteMatch();
 
   const fetchData = async () => {
-    const json = await getData(FETCH_USERS_URL);
-    return json;
+    return await getData(FETCH_USERS_URL);
   };
 
   return (

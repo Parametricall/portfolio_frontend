@@ -4,6 +4,7 @@ import { DESTROY_USERS_URL } from '../../constants';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { Button, Col, Container, Form, InputGroup, ListGroup, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import UserListItem from './UserListItem';
 
 
 function UserList({fetchData}) {
@@ -52,15 +53,7 @@ function UserList({fetchData}) {
     } else {
       userList = users.map((user) => {
         return (
-          <ListGroup.Item key={user.id}>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <Form.Check className="float-right" type="checkbox"
-                            onChange={(e) => userSelected(e.target.checked, user.id)}/>
-              </InputGroup.Prepend>
-              <Link to={`${url}/${user.id}`} className='user-list-username'>{user.username}</Link>
-            </InputGroup>
-          </ListGroup.Item>
+          <UserListItem key={user.id} userId={user.id} username={user.username} onUserSelect={userSelected} />
         );
       });
     }

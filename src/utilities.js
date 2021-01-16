@@ -1,4 +1,5 @@
 import { FETCH_USERS_URL } from './constants';
+import { setUserAuthenticated } from './actions';
 
 
 export function formatDate(dateString) {
@@ -6,21 +7,38 @@ export function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString(undefined, options);
 }
 
-export async function getData(url = FETCH_USERS_URL) {
-  const response = await fetch(url,
-    {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json',
-        ...getTokenFromStorage()
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer' // no-referrer, *client
-    });
-  return await response.json();
+function handleJSONResponse(dispatch, json, status) {
+  console.log('handleJSonResponse' + json);
+
+  if (status !== 200) {
+    dispatch(setUserAuthenticated(false))
+  }
+
+  return json;
+}
+
+export async function getData(store, url = FETCH_USERS_URL) {
+  const {dispatch} = store;
+  try {
+    const response = await fetch(url,
+      {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+          ...getTokenFromStorage()
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer' // no-referrer, *client
+      });
+
+    const json = await response.json();
+    return handleJSONResponse(dispatch, json, response.status);
+  } catch (e) {
+    console.warn(e);
+  }
 }
 
 function getTokenFromStorage() {
