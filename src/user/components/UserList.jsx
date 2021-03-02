@@ -1,35 +1,37 @@
-import React, { useState } from 'react';
-import { deleteData } from '../../utilities';
-import { DESTROY_USERS_URL } from '../../constants';
-import { Link, useRouteMatch } from 'react-router-dom';
-import { Button, Col, Container, Form, InputGroup, ListGroup, Row } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import UserListItem from './UserListItem';
+import React, { useState } from "react";
+import { deleteData } from "../../utilities";
+import { DESTROY_USERS_URL } from "../../constants";
+import { useRouteMatch } from "react-router-dom";
+import {
+  Button,
+  Col,
+  Container,
+  InputGroup,
+  ListGroup,
+  Row,
+} from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import UserListItem from "./UserListItem";
+import { connect } from "react-redux";
+import { setUserAuthenticated } from "../../actions";
 
-
-function UserList({fetchData}) {
-  let {url} = useRouteMatch();
+function UserList({ fetchData, setUserAuthenticated }) {
+  let { url } = useRouteMatch();
 
   const [users, setUsers] = useState(null);
   const [selected, setSelected] = useState([]);
 
-
-  const getUserData = async () => {
-    const userData = await fetchData();
-    setUsers(userData);
-  };
-
   React.useEffect(() => {
-    getUserData();
-  }, []);
+    fetchData(setUserAuthenticated).then((userData) => setUsers(userData));
+  }, [fetchData, setUserAuthenticated]);
 
   const deleteUsers = async () => {
-
     for (const id of selected) {
-      await deleteData(`${DESTROY_USERS_URL}${id}/`)
-        .catch(e => console.log(e));
+      await deleteData(`${DESTROY_USERS_URL}${id}/`).catch((e) =>
+        console.log(e)
+      );
     }
-    setUsers(fetchData());
+    fetchData(setUserAuthenticated).then((userData) => setUsers(userData));
   };
 
   const userSelected = (checked, userId) => {
@@ -49,11 +51,20 @@ function UserList({fetchData}) {
   let userList = null;
   if (users) {
     if (users.detail) {
-      errors = <InputGroup.Text className='user-list-errors'>{users.detail}</InputGroup.Text>;
+      errors = (
+        <InputGroup.Text className="user-list-errors">
+          {users.detail}
+        </InputGroup.Text>
+      );
     } else {
       userList = users.map((user) => {
         return (
-          <UserListItem key={user.id} userId={user.id} username={user.username} onUserSelect={userSelected} />
+          <UserListItem
+            key={user.id}
+            userId={user.id}
+            username={user.username}
+            onUserSelect={userSelected}
+          />
         );
       });
     }
@@ -66,7 +77,9 @@ function UserList({fetchData}) {
           <LinkContainer to={`${url}/create_user`}>
             <Button variant="primary">Create User</Button>
           </LinkContainer>
-          <Button variant="danger" onClick={deleteUsers}>Delete Selected</Button>
+          <Button variant="danger" onClick={deleteUsers}>
+            Delete Selected
+          </Button>
         </Col>
       </Row>
 
@@ -82,4 +95,4 @@ function UserList({fetchData}) {
   );
 }
 
-export default UserList;
+export default connect(null, { setUserAuthenticated })(UserList);

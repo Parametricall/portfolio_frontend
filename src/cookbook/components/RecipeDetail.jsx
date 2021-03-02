@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
-import { getData, splitArrayIntoChunks } from '../../utilities';
-import { FETCH_RECIPE_URL } from '../../constants';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { getData, splitArrayIntoChunks } from "../../utilities";
+import { FETCH_RECIPE_URL } from "../../constants";
+import { useParams } from "react-router-dom";
+import { connect } from "react-redux";
+import { setUserAuthenticated } from "../../actions";
 
+function RecipeDetail({ setUserAuthenticated }) {
+  let { recipeId } = useParams();
 
-function RecipeDetail() {
-  let {recipeId} = useParams();
-
-  const [recipeName, setRecipeName] = useState('');
+  const [recipeName, setRecipeName] = useState("");
   const [ingredients, setIngredients] = useState([]);
 
-  const getRecipe = () => {
-    getData(`${FETCH_RECIPE_URL}${recipeId}/`)
-      .then(json => {
+  useEffect(() => {
+    getData(setUserAuthenticated, `${FETCH_RECIPE_URL}${recipeId}/`).then(
+      (json) => {
         setRecipeName(json.name);
         setIngredients(json.ingredients);
-      });
-  };
-
-  useEffect(() => {
-    getRecipe();
-  }, []);
+      }
+    );
+  }, [recipeId, setUserAuthenticated]);
 
   let ingredientChunks;
   if (ingredients) {
@@ -37,28 +35,24 @@ function RecipeDetail() {
       </Row>
       <Row />
       {ingredientChunks &&
-      ingredientChunks.map((ingredients) => {
-        return (
-          <Row>
-            {ingredients &&
-            ingredients.map((ingredient) => {
-              return (
-                <Col>
-                  {ingredient.quantity}
-                  {ingredient.food.name}
-                </Col>
-              )
-            })
-            }
-          </Row>
-        )
-      })
-      }
-      <div>
-        Recipe Details Section
-      </div>
+        ingredientChunks.map((ingredients, index) => {
+          return (
+            <Row key={index}>
+              {ingredients &&
+                ingredients.map((ingredient, ingIndex) => {
+                  return (
+                    <Col key={ingIndex}>
+                      {ingredient.quantity}
+                      {ingredient.food.name}
+                    </Col>
+                  );
+                })}
+            </Row>
+          );
+        })}
+      <div>Recipe Details Section</div>
     </Container>
   );
 }
 
-export default RecipeDetail;
+export default connect(null, { setUserAuthenticated })(RecipeDetail);
