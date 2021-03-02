@@ -53,6 +53,20 @@ function LandingPage() {
       <CardDeck className="mt-5">
         <Card>
           <Card.Body>
+            <Card.Title>Snake (Coming Soon)</Card.Title>
+            <Card.Text>
+              A simple game of classic Snake.
+            </Card.Text>
+          </Card.Body>
+          <Card.Footer>
+            <LinkContainer to='/snake_game'>
+              <Button variant="primary">Start Game</Button>
+            </LinkContainer>
+
+          </Card.Footer>
+        </Card>
+        <Card>
+          <Card.Body>
             <Card.Title>Todo List (Coming in 2021)</Card.Title>
             <Card.Text>
               A basic todo list app to help keep track of important tasks.

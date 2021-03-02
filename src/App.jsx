@@ -15,8 +15,9 @@ import { postData } from './utilities';
 import { GET_TOKEN_URL } from './constants';
 import { NavDropdown } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-import Cookbook from './cookbook/components'
+import Cookbook from './cookbook/components';
 import ProtectedRoute from './components/ProtectedRoute';
+import SnakeGame from './snakeGame/components/SnakeGame';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -37,7 +38,7 @@ function App() {
   const handleLogin = async (e, username, password) => {
     e.preventDefault();
     const user = {username, password};
-    localStorage.clear()
+    localStorage.clear();
     const response = await postData(GET_TOKEN_URL, user).then(json => json);
     setUser(response);
     localStorage.setItem('user', JSON.stringify(response));
@@ -77,7 +78,10 @@ function App() {
           <LandingPage/>
         </Route>
         <Route path="/cookbook">
-          <Cookbook />
+          <Cookbook/>
+        </Route>
+        <Route path="/snake_game">
+          <SnakeGame/>
         </Route>
         <ProtectedRoute path="/users">
           <User/>
@@ -89,7 +93,7 @@ function App() {
           <Logout logout={logout}/>
         </Route>
         <Route path="/">
-          <Redirect to="/home" />
+          <Redirect to="/home"/>
         </Route>
       </Switch>
     </Router>

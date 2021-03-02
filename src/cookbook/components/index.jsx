@@ -5,7 +5,7 @@ import RecipeDetail from './RecipeDetail';
 import CreateRecipe from './CreateRecipe';
 
 
-function User() {
+function Cookbook() {
   let {path} = useRouteMatch();
 
   return (
@@ -25,4 +25,4 @@ function User() {
   );
 }
 
-export default User;
+export default Cookbook;
