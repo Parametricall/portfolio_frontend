@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { deleteData } from "../../utilities";
-import { DESTROY_USERS_URL } from "../../constants";
+import React, { useCallback, useState } from "react";
+import { deleteData, getData } from "../../utilities";
+import { DESTROY_USERS_URL, FETCH_USERS_URL } from "../../constants";
 import { useRouteMatch } from "react-router-dom";
 import {
   Button,
@@ -15,11 +15,15 @@ import UserListItem from "./UserListItem";
 import { connect } from "react-redux";
 import { setUserAuthenticated } from "../../actions";
 
-function UserList({ fetchData, setUserAuthenticated }) {
+function UserList({ setUserAuthenticated }) {
   let { url } = useRouteMatch();
 
   const [users, setUsers] = useState(null);
   const [selected, setSelected] = useState([]);
+
+  const fetchData = useCallback(async (setUserAuthenticated) => {
+    return await getData(setUserAuthenticated, FETCH_USERS_URL);
+  }, []);
 
   React.useEffect(() => {
     fetchData(setUserAuthenticated).then((userData) => setUsers(userData));

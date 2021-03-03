@@ -23,17 +23,12 @@ function RecipeDetail({ setUserAuthenticated }) {
 
   let ingredientChunks;
   if (ingredients) {
-    ingredientChunks = splitArrayIntoChunks(ingredients, 3);
+    ingredientChunks = splitArrayIntoChunks(ingredients, 2);
   }
 
   return (
     <Container>
-      <Row>
-        <Col>
-          <h1>{recipeName}</h1>
-        </Col>
-      </Row>
-      <Row />
+      <h1>{recipeName}</h1>
       {ingredientChunks &&
         ingredientChunks.map((ingredients, index) => {
           return (
