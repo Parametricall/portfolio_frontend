@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Card, CardDeck, Col, Container, Row } from "react-bootstrap";
+import { Button, CardDeck, Container } from "react-bootstrap";
 
-import chatBot from "../../images/chat_bot.png";
 import { LinkContainer } from "react-router-bootstrap";
 
 import "../style.css";
@@ -10,6 +9,7 @@ import { deleteData, getData, splitArrayIntoChunks } from "../../utilities";
 import { DESTROY_RECIPE_URL, GET_RECIPES_URL } from "../../constants";
 import { connect } from "react-redux";
 import { setUserAuthenticated } from "../../actions";
+import LandingPageCard from "./LandingPageCard";
 
 function LandingPage({ setUserAuthenticated }) {
   let { url } = useRouteMatch();
@@ -53,6 +53,7 @@ function LandingPage({ setUserAuthenticated }) {
         console.log(e)
       );
     }
+    setSelected([]);
     fetchData();
   };
 
@@ -71,39 +72,12 @@ function LandingPage({ setUserAuthenticated }) {
               {recipeChunk &&
                 recipeChunk.map((recipe, recipeIndex) => {
                   return (
-                    <Card className="recipe-card" key={recipeIndex}>
-                      <LinkContainer to={`${url}/${recipe.id}`}>
-                        <button>
-                          <Row>
-                            <Col>
-                              <Card.Img src={chatBot} />
-                            </Col>
-                            <Col>
-                              <Row>
-                                <Col className="recipe-card-checkbox-col">
-                                  <input
-                                    className="recipe-card-checkbox"
-                                    type="checkbox"
-                                    onClick={(e) => onCardSelect(e, recipe.id)}
-                                  />
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col>
-                                  <Card.Body className="recipe-card-body">
-                                    <Card.Title>{recipe.name}</Card.Title>
-                                    <Card.Text>
-                                      A simple cookbook to help keep track of
-                                      your favourite recipes.
-                                    </Card.Text>
-                                  </Card.Body>
-                                </Col>
-                              </Row>
-                            </Col>
-                          </Row>
-                        </button>
-                      </LinkContainer>
-                    </Card>
+                    <LandingPageCard
+                      key={recipeIndex}
+                      url={url}
+                      recipe={recipe}
+                      onCardSelect={onCardSelect}
+                    />
                   );
                 })}
             </CardDeck>

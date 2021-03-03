@@ -31,8 +31,16 @@
     margin: 10px;
 }
 
+.recipe-card-button {
+    background: transparent;
+}
+
 .recipe-card-body {
     padding-top: 0 !important;
+}
+
+.recipe-card-title {
+    text-align: left;
 }
 
 .recipe-card-checkbox-col {
