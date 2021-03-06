@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { getData, splitArrayIntoChunks } from "../../utilities";
 import { FETCH_RECIPE_URL } from "../../constants";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { setUserAuthenticated } from "../../actions";
+import IngredientsGroup from "./IngredientsGroup";
+import Method from "./Method";
 
 function RecipeDetail({ setUserAuthenticated }) {
   let { recipeId } = useParams();
 
   const [recipeName, setRecipeName] = useState("");
   const [ingredients, setIngredients] = useState([]);
+  const [methods, setMethods] = useState([]);
 
   useEffect(() => {
     getData(setUserAuthenticated, `${FETCH_RECIPE_URL}${recipeId}/`).then(
       (json) => {
         setRecipeName(json.name);
         setIngredients(json.ingredients);
+        setMethods(json.methods);
       }
     );
   }, [recipeId, setUserAuthenticated]);
@@ -29,23 +33,13 @@ function RecipeDetail({ setUserAuthenticated }) {
   return (
     <Container>
       <h1>{recipeName}</h1>
-      {ingredientChunks &&
-        ingredientChunks.map((ingredients, index) => {
-          return (
-            <Row key={index}>
-              {ingredients &&
-                ingredients.map((ingredient, ingIndex) => {
-                  return (
-                    <Col key={ingIndex}>
-                      {ingredient.quantity}
-                      {ingredient.food.name}
-                    </Col>
-                  );
-                })}
-            </Row>
-          );
+      <hr />
+      <IngredientsGroup ingredientChunks={ingredientChunks} />
+      <hr />
+      {methods &&
+        methods.map((method, index) => {
+          return <Method key={index + method.id * 1000} method={method} />;
         })}
-      <div>Recipe Details Section</div>
     </Container>
   );
 }
