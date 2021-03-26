@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Form } from "react-bootstrap";
+import { Button, Col, Form } from "react-bootstrap";
 
 function NewIngredient(props) {
   const { ingredient, handleIngredientsChange } = props;
@@ -28,32 +28,43 @@ function NewIngredient(props) {
   };
 
   return (
-    <Form.Row>
-      <Col>
-        <Form.Control
-          onChange={handleOnQuantityChange}
-          value={quantity}
-          placeholder="Quantity"
-        />
-      </Col>
-      {/*<Col>*/}
-      {/*  <Form.Control as="select" defaultValue="Unit">*/}
-      {/*    <option disabled>Unit</option>*/}
-      {/*    <option>mg</option>*/}
-      {/*    <option>g</option>*/}
-      {/*    <option>Kg</option>*/}
-      {/*    <option>ml</option>*/}
-      {/*    <option>l</option>*/}
-      {/*  </Form.Control>*/}
-      {/*</Col>*/}
-      <Col xs={9}>
-        <Form.Control
-          onChange={handleOnFoodChange}
-          value={food}
-          placeholder="Ingredient"
-        />
-      </Col>
-    </Form.Row>
+    <div style={{ display: "flex" }}>
+      <span style={{ marginLeft: "-30px", alignSelf: "flex-end" }}>
+        <Button
+          style={{ padding: "unset", boxShadow: "unset" }}
+          variant="Light"
+          onClick={null}
+        >
+          <span className="material-icons">delete</span>
+        </Button>
+      </span>
+      <Form.Row>
+        <Col>
+          <Form.Control
+            onChange={handleOnQuantityChange}
+            value={quantity}
+            placeholder="Quantity"
+          />
+        </Col>
+        {/*<Col>*/}
+        {/*  <Form.Control as="select" defaultValue="Unit">*/}
+        {/*    <option disabled>Unit</option>*/}
+        {/*    <option>mg</option>*/}
+        {/*    <option>g</option>*/}
+        {/*    <option>Kg</option>*/}
+        {/*    <option>ml</option>*/}
+        {/*    <option>l</option>*/}
+        {/*  </Form.Control>*/}
+        {/*</Col>*/}
+        <Col xs={9}>
+          <Form.Control
+            onChange={handleOnFoodChange}
+            value={food}
+            placeholder="Ingredient"
+          />
+        </Col>
+      </Form.Row>
+    </div>
   );
 }
 

@@ -28,6 +28,8 @@ function CreateRecipe() {
     setIngredients([...ingredients, newIngredient]);
   };
 
+  const handleDeleteIngredient = () => {};
+
   const addNewMethod = () => {
     const newId = methods.length + 1;
     const newMethod = {
@@ -108,28 +110,24 @@ function CreateRecipe() {
         </Form.Group>
         <h3>Ingredients</h3>
         {ing}
-        <div style={{ textAlign: "center" }}>
+        <div style={{ marginLeft: "-30px" }}>
           <Button
             style={{ padding: "unset", boxShadow: "unset" }}
             variant="Light"
             onClick={addNewIngredient}
           >
-            <span style={{ fontSize: "60px" }} className="material-icons">
-              add_circle_outline
-            </span>
+            <span className="material-icons">add_circle_outline</span>
           </Button>
         </div>
         <h3>Method</h3>
         {meth}
-        <div style={{ textAlign: "center" }}>
+        <div style={{ marginLeft: "-30px" }}>
           <Button
             style={{ padding: "unset", boxShadow: "unset" }}
             variant="Light"
             onClick={addNewMethod}
           >
-            <span style={{ fontSize: "60px" }} className="material-icons">
-              add_circle_outline
-            </span>
+            <span className="material-icons">add_circle_outline</span>
           </Button>
         </div>
         <hr />

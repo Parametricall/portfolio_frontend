@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
 
 function NewMethod(props) {
   const { method, handleMethodChange } = props;
@@ -17,16 +17,27 @@ function NewMethod(props) {
   };
 
   return (
-    <InputGroup>
-      <InputGroup.Prepend>
-        <InputGroup.Text>{method.id}</InputGroup.Text>
-      </InputGroup.Prepend>
-      <Form.Control
-        value={localMethod}
-        onChange={handleLocalMethodChange}
-        placeholder="Method"
-      />
-    </InputGroup>
+    <div style={{ display: "flex" }}>
+      <span style={{ marginLeft: "-30px", alignSelf: "flex-end" }}>
+        <Button
+          style={{ padding: "unset", boxShadow: "unset" }}
+          variant="Light"
+          onClick={null}
+        >
+          <span className="material-icons">delete</span>
+        </Button>
+      </span>
+      <InputGroup>
+        <InputGroup.Prepend>
+          <InputGroup.Text>{method.id}</InputGroup.Text>
+        </InputGroup.Prepend>
+        <Form.Control
+          value={localMethod}
+          onChange={handleLocalMethodChange}
+          placeholder="Method"
+        />
+      </InputGroup>
+    </div>
   );
 }
 

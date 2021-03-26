@@ -31,8 +31,8 @@ function RecipeDetail({ setUserAuthenticated }) {
   }
 
   return (
-    <Container>
-      <h1>{recipeName}</h1>
+    <Container className="recipe-detail-container">
+      <h1 style={{ marginTop: "30px" }}>{recipeName}</h1>
       <hr />
       <IngredientsGroup ingredientChunks={ingredientChunks} />
       <hr />

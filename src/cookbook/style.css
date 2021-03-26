@@ -46,3 +46,7 @@
 .recipe-card-checkbox-col {
     text-align: right;
 }
+
+.recipe-detail-container {
+    line-height: 25px;
+}
