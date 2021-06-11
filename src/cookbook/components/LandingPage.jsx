@@ -4,17 +4,41 @@ import { Button, CardDeck, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 import "../style.css";
-import { useRouteMatch } from "react-router-dom";
+import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import { deleteData, getData, splitArrayIntoChunks } from "../../utilities";
 import { DESTROY_RECIPE_URL, GET_RECIPES_URL } from "../../constants";
 import { connect } from "react-redux";
 import { setUserAuthenticated } from "../../actions";
 import LandingPageCard from "./LandingPageCard";
+import {
+  Card,
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  makeStyles,
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  list: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 function LandingPage({ setUserAuthenticated }) {
+  const classes = useStyles();
   let { url } = useRouteMatch();
 
-  const [recipes, setRecipes] = useState();
+  const [recipes, setRecipes] = useState([]);
   const [selected, setSelected] = useState([]);
 
   const fetchData = useCallback(() => {
@@ -57,32 +81,45 @@ function LandingPage({ setUserAuthenticated }) {
     fetchData();
   };
 
+  const handleDeleteRecipe = async (e, id) => {
+    await deleteData(`${DESTROY_RECIPE_URL}${id}/`).catch((e) =>
+      console.log(e)
+    );
+    fetchData();
+  };
+
   return (
     <Container>
-      <LinkContainer to={`${url}/create`}>
-        <Button variant="primary">Create Recipe</Button>
-      </LinkContainer>
-      <Button variant="danger" onClick={deleteSelected}>
-        Delete Selected
-      </Button>
-      {splitRecipes &&
-        splitRecipes.map((recipeChunk, index) => {
-          return (
-            <CardDeck className="mt-5" key={index}>
-              {recipeChunk &&
-                recipeChunk.map((recipe, recipeIndex) => {
-                  return (
-                    <LandingPageCard
-                      key={recipeIndex}
-                      url={url}
-                      recipe={recipe}
-                      onCardSelect={onCardSelect}
-                    />
-                  );
-                })}
-            </CardDeck>
-          );
-        })}
+      <div className={classes.root}>
+        <LinkContainer to={`${url}/create`}>
+          <Button variant="primary">Create Recipe</Button>
+        </LinkContainer>
+        <Button variant="danger" onClick={deleteSelected}>
+          Delete Selected
+        </Button>
+        <div className={classes.list}>
+          <List>
+            {recipes.map((recipe) => (
+              <ListItem
+                component={RouterLink}
+                to={`${url}/${recipe.id}`}
+                button
+              >
+                <ListItemText primary={recipe.name} />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    onClick={(e) => handleDeleteRecipe(e, recipe.id)}
+                    edge="end"
+                    aria-label="delete"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            ))}
+          </List>
+        </div>
+      </div>
     </Container>
   );
 }

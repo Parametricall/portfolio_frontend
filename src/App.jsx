@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import LandingPage from "./components/LandingPage";
 import User from "./user/components";
@@ -14,9 +15,34 @@ import { Redirect } from "react-router-dom";
 import Cookbook from "./cookbook/components";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SnakeGame from "./snakeGame/components/SnakeGame";
+import { AppBar, IconButton, Link, makeStyles, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import { AccountCircle } from "@material-ui/icons";
+
+
+const useStyles = makeStyles((theme) => ({
+  title: {
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block"
+    }
+  },
+  grow: {
+    flexGrow: 1
+  },
+  linkHover: {
+    "&:hover": {
+      color: "unset",
+      textDecorationColor: "unset"
+    }
+  }
+}));
+
 
 function App() {
+  const classes = useStyles();
   const [user, setUser] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const isMenuOpen = Boolean(anchorEl);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -40,34 +66,58 @@ function App() {
     localStorage.setItem("user", JSON.stringify(response));
   };
 
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const menuId = "primary-search-account-menu";
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem component={RouterLink} to={`/users/${user?.user_id}`} onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem component={RouterLink} to="/users" onClick={handleMenuClose}>Users</MenuItem>
+      <MenuItem component={RouterLink} to="/logout" onClick={handleMenuClose}>Logout</MenuItem>
+    </Menu>
+  );
+
   return (
     <Router>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav" />
-        <Nav className="mr-auto">
-          <LinkContainer to="/home">
-            <Nav.Link>Home</Nav.Link>
-          </LinkContainer>
-          {user ? (
-            <NavDropdown title={user.username} id="basic-nav-dropdown">
-              <LinkContainer to={`/users/${user.user_id}`}>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
-              </LinkContainer>
-              <LinkContainer to="/users">
-                <NavDropdown.Item>Users</NavDropdown.Item>
-              </LinkContainer>
-              <LinkContainer to="/logout">
-                <NavDropdown.Item>Logout</NavDropdown.Item>
-              </LinkContainer>
-            </NavDropdown>
-          ) : (
-            <LinkContainer className="app-login" to="/login">
-              <Nav.Link>Login</Nav.Link>
-            </LinkContainer>
-          )}
-        </Nav>
-      </Navbar>
+      <div className={classes.grow}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography className={classes.title} variant="h6" noWrap>
+              <Link className={classes.linkHover} color="inherit" component={RouterLink} to="/home">
+                Home
+              </Link>
+            </Typography>
+            <div className={classes.grow} />
+            <div>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </AppBar>
+        {renderMenu}
+      </div>
 
       <Switch>
         <Route exact path="/home">
