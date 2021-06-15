@@ -28,8 +28,6 @@ function CreateRecipe() {
     setIngredients([...ingredients, newIngredient]);
   };
 
-  const handleDeleteIngredient = () => {};
-
   const addNewMethod = () => {
     const newId = methods.length + 1;
     const newMethod = {

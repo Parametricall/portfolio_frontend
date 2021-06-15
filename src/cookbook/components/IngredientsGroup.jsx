@@ -13,8 +13,8 @@ function IngredientsGroup(props) {
                 ingredients.map((ingredient, ingIndex) => {
                   return (
                     <React.Fragment key={ingIndex}>
-                      <Col xs={1}>{ingredient.quantity}</Col>
-                      <Col>{ingredient.food.name}</Col>
+                      <Col xs={1}>{ingredient?.quantity}</Col>
+                      <Col>{ingredient?.food?.name}</Col>
                     </React.Fragment>
                   );
                 })}

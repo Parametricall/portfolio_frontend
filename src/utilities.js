@@ -15,6 +15,44 @@ function handleJSONResponse(setUserAuthenticated, json, status) {
   return json;
 }
 
+export async function fetchData(url, method, body) {
+  const fetchObject = {
+    method: method, // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      ...getTokenFromStorage(),
+    },
+    redirect: "follow", // manual, *follow, error
+    referrer: "no-referrer", // no-referrer, *client
+  };
+
+  if (body) {
+    fetchObject.body = JSON.stringify(body);
+  }
+  try {
+    return await fetch(url, fetchObject);
+  } catch (e) {
+    console.warn(e);
+    return {};
+  }
+}
+
+export async function fetchJsonData(url, method, body) {
+  const response = await fetchData(url, method, body);
+
+  if (!response || !response.ok) return {};
+
+  try {
+    return await response.json();
+  } catch (e) {
+    console.warn(e);
+    return {};
+  }
+}
+
 export async function getData(setUserAuthenticated, url = FETCH_USERS_URL) {
   try {
     const response = await fetch(url, {

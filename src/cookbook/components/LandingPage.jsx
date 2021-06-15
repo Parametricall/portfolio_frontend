@@ -1,25 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, CardDeck, Container } from "react-bootstrap";
-
-import { LinkContainer } from "react-router-bootstrap";
 
 import "../style.css";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
-import { deleteData, getData, splitArrayIntoChunks } from "../../utilities";
+import { fetchData, fetchJsonData } from "../../utilities";
 import { DESTROY_RECIPE_URL, GET_RECIPES_URL } from "../../constants";
 import { connect } from "react-redux";
 import { setUserAuthenticated } from "../../actions";
-import LandingPageCard from "./LandingPageCard";
 import {
-  Card,
+  Button,
+  Container,
   IconButton,
   List,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
   makeStyles,
+  Snackbar,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,68 +33,57 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LandingPage({ setUserAuthenticated }) {
+function LandingPage() {
   const classes = useStyles();
   let { url } = useRouteMatch();
 
   const [recipes, setRecipes] = useState([]);
-  const [selected, setSelected] = useState([]);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [snackbarText, setSnackbarText] = useState(null);
 
-  const fetchData = useCallback(() => {
-    getData(setUserAuthenticated, GET_RECIPES_URL).then((json) =>
-      setRecipes(json)
-    );
-  }, [setUserAuthenticated]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  let splitRecipes;
-  if (recipes) {
-    splitRecipes = splitArrayIntoChunks(recipes, 3);
-  }
-
-  const onCardSelect = (e, recipeId) => {
-    e.stopPropagation();
-    const checked = e.target.checked;
-    if (checked) {
-      selected.push(recipeId);
-      setSelected(selected);
-    } else {
-      const index = selected.indexOf(recipeId);
-      if (index !== -1) {
-        selected.splice(index, 1);
-        setSelected(selected);
-      }
+  const fetchAllRecipes = useCallback(async () => {
+    const recipes = await fetchJsonData(GET_RECIPES_URL, "GET");
+    if (recipes) setRecipes(recipes);
+    else {
+      setRecipes([]);
+      setSnackbarText("Failed to load recipes!");
+      setShowSnackbar(true);
     }
-  };
-
-  const deleteSelected = async () => {
-    for (const id of selected) {
-      await deleteData(`${DESTROY_RECIPE_URL}${id}/`).catch((e) =>
-        console.log(e)
-      );
-    }
-    setSelected([]);
-    fetchData();
-  };
+  }, []);
 
   const handleDeleteRecipe = async (e, id) => {
-    await deleteData(`${DESTROY_RECIPE_URL}${id}/`).catch((e) =>
-      console.log(e)
+    const deleteResponse = await fetchData(
+      `${DESTROY_RECIPE_URL}${id}/`,
+      "DELETE"
     );
-    fetchData();
+
+    if (deleteResponse.ok) await fetchAllRecipes();
+    else {
+      setSnackbarText("Failed to delete recipe!");
+      setShowSnackbar(true);
+    }
   };
 
+  // turn snackbar alerts into a generalised hook
+  const handleSnackbarClose = () => {
+    setSnackbarText(null);
+    setShowSnackbar(false);
+  };
+
+  useEffect(() => {
+    fetchAllRecipes().then();
+  }, [fetchAllRecipes]);
+
   return (
-    <Container>
+    <Container maxWidth="lg">
       <div className={classes.root}>
-        <LinkContainer to={`${url}/create`}>
-          <Button variant="primary">Create Recipe</Button>
-        </LinkContainer>
-        <Button variant="danger" onClick={deleteSelected}>
-          Delete Selected
+        <Button
+          color="primary"
+          variant="outlined"
+          component={RouterLink}
+          to={`${url}/create`}
+        >
+          Create Recipe
         </Button>
         <div className={classes.list}>
           <List>
@@ -104,6 +92,7 @@ function LandingPage({ setUserAuthenticated }) {
                 component={RouterLink}
                 to={`${url}/${recipe.id}`}
                 button
+                key={recipe.id}
               >
                 <ListItemText primary={recipe.name} />
                 <ListItemSecondaryAction>
@@ -119,6 +108,15 @@ function LandingPage({ setUserAuthenticated }) {
             ))}
           </List>
         </div>
+        <Snackbar
+          open={showSnackbar}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+        >
+          <Alert variant="filled" severity="error">
+            {snackbarText}
+          </Alert>
+        </Snackbar>
       </div>
     </Container>
   );

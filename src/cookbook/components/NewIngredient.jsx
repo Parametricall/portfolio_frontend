@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
+import AsyncCreatableSelect from "react-select/async-creatable";
+import { getData } from "../../utilities";
 
 function NewIngredient(props) {
   const { ingredient, handleIngredientsChange } = props;
@@ -19,11 +21,20 @@ function NewIngredient(props) {
   };
 
   const handleOnFoodChange = (e) => {
-    setFood(e.target.value);
+    setFood(e.label);
     handleIngredientsChange({
-      food: { name: e.target.value },
+      food: { name: e.label },
       quantity,
       id: ingredient.id,
+    });
+  };
+
+  const options = async () => {
+    const response = await getData(() => {},
+    "http://127.0.0.1:8000/api/cookbook/food/");
+
+    return response.map((food) => {
+      return { value: food.id, label: food.name };
     });
   };
 
@@ -57,10 +68,15 @@ function NewIngredient(props) {
         {/*  </Form.Control>*/}
         {/*</Col>*/}
         <Col xs={9}>
-          <Form.Control
-            onChange={handleOnFoodChange}
-            value={food}
-            placeholder="Ingredient"
+          {/*<Form.Control*/}
+          {/*  onChange={handleOnFoodChange}*/}
+          {/*  value={food}*/}
+          {/*  placeholder="Ingredient"*/}
+          {/*/>*/}
+          <AsyncCreatableSelect
+            defaultOptions
+            loadOptions={options}
+            // onChange={handleOnFoodChange}
           />
         </Col>
       </Form.Row>
