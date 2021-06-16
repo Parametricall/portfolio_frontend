@@ -1,0 +1,87 @@
+import React, { useCallback } from "react";
+import PropTypes from "prop-types";
+import { IconButton, List, ListItem, makeStyles } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+
+const useStyles = makeStyles(() => ({
+  addItemBtnStyle: {
+    marginLeft: "50%", // positions the "+" symbol in the middle of the <List />
+  },
+}));
+
+/**
+ * Wraps a list of values into a dynamic list where rows can be added and
+ * deleted.
+ *
+ * @param props
+ * @returns {JSX.Element}
+ */
+function DynamicList(props) {
+  const {
+    valueList,
+    onChange,
+    emptyChildCallback,
+    idKey,
+    Component,
+    addItemBtnStyle,
+  } = props;
+  const classes = useStyles();
+
+  const addListItem = useCallback(() => {
+    const extendedList = [...valueList, emptyChildCallback()];
+    onChange(extendedList);
+  }, [valueList, emptyChildCallback, onChange]);
+
+  const handleItemChange = useCallback(
+    (index, itemValue) => {
+      const items = [...valueList];
+      items[index] = itemValue;
+      onChange(items);
+    },
+    [valueList, onChange]
+  );
+
+  const handleDeleteListItem = useCallback(
+    (index) => {
+      const items = [...valueList];
+      items.splice(index, 1);
+      onChange(items);
+    },
+    [valueList, onChange]
+  );
+
+  const listItems = valueList.map((itemValue, index) => {
+    return (
+      <ListItem key={itemValue[idKey]}>
+        <Component
+          value={itemValue}
+          index={index}
+          onChange={handleItemChange}
+          onDelete={handleDeleteListItem}
+        />
+      </ListItem>
+    );
+  });
+
+  return (
+    <List>
+      {listItems}
+      <IconButton
+        className={addItemBtnStyle || classes.addItemBtnStyle}
+        onClick={addListItem}
+      >
+        <AddIcon />
+      </IconButton>
+    </List>
+  );
+}
+
+DynamicList.propTypes = {
+  addItemBtnStyle: PropTypes.objectOf(PropTypes.string),
+};
+
+DynamicList.defaultProps = {
+  addItemBtnStyle: null,
+};
+
+export default DynamicList;

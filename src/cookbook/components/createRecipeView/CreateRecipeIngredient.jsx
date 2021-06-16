@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   IconButton,
   ListItemSecondaryAction,
@@ -9,12 +9,23 @@ import AsyncCreatableSelect from "react-select/async-creatable/dist/react-select
 import { getData } from "../../../utilities";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   quantity: {
     width: "20%",
+    marginLeft: "0.8rem",
+    marginRight: "0.8rem",
   },
   food: {
     width: "50%",
+  },
+  dotPoint: {
+    background: "cadetblue",
+    marginRight: "0.8rem",
+    marginLeft: "0.5rem",
+    borderRadius: "50%",
+    color: "white",
+    width: "0.6rem",
+    height: "0.6rem",
   },
 }));
 
@@ -47,6 +58,7 @@ function CreateRecipeIngredient({ value, index, onDelete, onChange }) {
 
   return (
     <>
+      <span className={classes.dotPoint} />
       <TextField
         className={classes.quantity}
         variant="outlined"
