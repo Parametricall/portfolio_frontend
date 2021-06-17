@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   IconButton,
   ListItemSecondaryAction,
   makeStyles,
   TextField,
 } from "@material-ui/core";
-import AsyncCreatableSelect from "react-select/async-creatable/dist/react-select.esm";
-import { getData } from "../../utilities";
+import { fetchJsonData, getData } from "../../utilities";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CreatableSelect from "react-select/creatable";
 
 const useStyles = makeStyles(() => ({
   quantity: {
@@ -32,15 +32,46 @@ const useStyles = makeStyles(() => ({
 function Ingredient({ value, index, onDelete, onChange, editable }) {
   const classes = useStyles();
 
+  const [options, setOptions] = useState(null);
+
   // Probably do this fetch higher up. Don't want to be sending the same request
   // every time user adds a new ingredient line.
-  const options = async () => {
+  const getOptions = async () => {
     const response = await getData(() => {},
     "http://127.0.0.1:8000/api/cookbook/food/");
 
-    return response.map((food) => {
-      return { value: food.id, label: food.name };
-    });
+    setOptions(
+      response.map((food) => {
+        return { value: food.id, label: food.name };
+      })
+    );
+  };
+
+  useEffect(() => {
+    getOptions().then();
+  }, []);
+
+  const handleCreateNewOption = async (newFood) => {
+    const response = await fetchJsonData(
+      "http://127.0.0.1:8000/api/cookbook/food/",
+      "POST",
+      {
+        id: null,
+        name: newFood,
+      }
+    );
+
+    if (response) {
+      const newOptions = [
+        ...options,
+        { value: response.id, label: response.name },
+      ];
+      setOptions(newOptions);
+      onChange(index, {
+        ...value,
+        food: { id: response.id, name: response.name },
+      });
+    }
   };
 
   const handleOnFoodChange = (selectedFood) => {
@@ -72,11 +103,12 @@ function Ingredient({ value, index, onDelete, onChange, editable }) {
       )}
       <div className={classes.food}>
         {editable ? (
-          <AsyncCreatableSelect
+          <CreatableSelect
             defaultOptions
-            loadOptions={options}
+            options={options}
             onChange={handleOnFoodChange}
             value={{ value: value?.food?.id, label: foodName }}
+            onCreateOption={handleCreateNewOption}
           />
         ) : foodName ? (
           foodName
