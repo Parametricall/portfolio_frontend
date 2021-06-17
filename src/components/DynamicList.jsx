@@ -24,6 +24,7 @@ function DynamicList(props) {
     idKey,
     Component,
     addItemBtnStyle,
+    editable,
   } = props;
   const classes = useStyles();
 
@@ -58,6 +59,7 @@ function DynamicList(props) {
           index={index}
           onChange={handleItemChange}
           onDelete={handleDeleteListItem}
+          editable={editable}
         />
       </ListItem>
     );
@@ -66,22 +68,26 @@ function DynamicList(props) {
   return (
     <List>
       {listItems}
-      <IconButton
-        className={addItemBtnStyle || classes.addItemBtnStyle}
-        onClick={addListItem}
-      >
-        <AddIcon />
-      </IconButton>
+      {editable ? (
+        <IconButton
+          className={addItemBtnStyle || classes.addItemBtnStyle}
+          onClick={addListItem}
+        >
+          <AddIcon />
+        </IconButton>
+      ) : null}
     </List>
   );
 }
 
 DynamicList.propTypes = {
   addItemBtnStyle: PropTypes.objectOf(PropTypes.string),
+  editable: PropTypes.bool,
 };
 
 DynamicList.defaultProps = {
   addItemBtnStyle: null,
+  editable: true,
 };
 
 export default DynamicList;

@@ -1,12 +1,12 @@
 import { Button, Container, makeStyles, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { fetchData } from "../../../utilities";
-import { CREATE_RECIPE_URL } from "../../../constants";
+import { fetchData } from "../../utilities";
+import { CREATE_RECIPE_URL } from "../../constants";
 import { Redirect } from "react-router-dom";
-import DynamicList from "../../../components/DynamicList";
-import CreateRecipeIngredient from "./CreateRecipeIngredient";
-import CreateRecipeMethod from "./CreateRecipeMethod";
+import DynamicList from "../../components/DynamicList";
+import Ingredient from "./Ingredient";
+import Method from "./Method";
 
 export const emptyIngredient = () => ({
   id: null,
@@ -67,14 +67,14 @@ function CreateRecipe() {
         onChange={setIngredients}
         emptyChildCallback={emptyIngredient}
         idKey={"__key__"}
-        Component={CreateRecipeIngredient}
+        Component={Ingredient}
       />
       <DynamicList
         valueList={methods}
         onChange={setMethods}
         emptyChildCallback={emptyMethod}
         idKey={"__key__"}
-        Component={CreateRecipeMethod}
+        Component={Method}
       />
       <Button
         className={classes.submitButton}

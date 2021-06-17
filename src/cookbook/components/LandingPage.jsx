@@ -27,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   list: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    // width: "100%",
+    // maxWidth: 360,
+    // backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -75,7 +75,7 @@ function LandingPage() {
   }, [fetchAllRecipes]);
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="md">
       <div className={classes.root}>
         <Button
           color="primary"
@@ -93,6 +93,7 @@ function LandingPage() {
                 to={`${url}/${recipe.id}`}
                 button
                 key={recipe.id}
+                divider
               >
                 <ListItemText primary={recipe.name} />
                 <ListItemSecondaryAction>

@@ -5,7 +5,9 @@ import { FETCH_RECIPE_URL } from "../../constants";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { setUserAuthenticated } from "../../actions";
-import IngredientsGroup from "./IngredientsGroup";
+import DynamicList from "../../components/DynamicList";
+import Ingredient from "./Ingredient";
+import { Grid } from "@material-ui/core";
 import Method from "./Method";
 
 function RecipeDetail({ setUserAuthenticated }) {
@@ -27,19 +29,36 @@ function RecipeDetail({ setUserAuthenticated }) {
 
   let ingredientChunks;
   if (ingredients) {
-    ingredientChunks = splitArrayIntoChunks(ingredients, 2);
+    ingredientChunks = splitArrayIntoChunks(ingredients, 3);
   }
 
   return (
     <Container className="recipe-detail-container">
       <h1 style={{ marginTop: "30px" }}>{recipeName}</h1>
       <hr />
-      <IngredientsGroup ingredientChunks={ingredientChunks} />
-      <hr />
-      {methods &&
-        methods.map((method, index) => {
-          return <Method key={index + method.id * 1000} method={method} />;
+      <Grid container>
+        {ingredientChunks.map((chunk) => {
+          return (
+            <Grid item xs={12} md={6}>
+              <DynamicList
+                valueList={chunk}
+                onChange={setIngredients}
+                idKey="id"
+                Component={Ingredient}
+                editable={false}
+              />
+            </Grid>
+          );
         })}
+      </Grid>
+      <hr />
+      <DynamicList
+        valueList={methods}
+        onChange={setIngredients}
+        idKey="id"
+        Component={Method}
+        editable={false}
+      />
     </Container>
   );
 }

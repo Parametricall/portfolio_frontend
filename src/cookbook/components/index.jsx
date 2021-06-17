@@ -2,8 +2,7 @@ import React from "react";
 import { useRouteMatch, Switch, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import RecipeDetail from "./RecipeDetail";
-// import CreateRecipe from './CreateRecipe';
-import CreateRecipeView from "./createRecipeView";
+import CreateRecipeView from "./CreateRecipe";
 
 function Cookbook() {
   let { path } = useRouteMatch();
