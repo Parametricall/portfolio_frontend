@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 import DynamicList from "../../components/DynamicList";
 import Ingredient from "./Ingredient";
 import Method from "./Method";
+import RecipeName from "./RecipeName";
 
 export const emptyIngredient = () => ({
   id: null,
@@ -24,9 +25,6 @@ export const emptyMethod = () => ({
 });
 
 const useStyles = makeStyles(() => ({
-  title: {
-    margin: "20px",
-  },
   submitButton: {
     float: "right",
   },
@@ -54,14 +52,7 @@ function CreateRecipe() {
 
   return (
     <Container maxWidth="md">
-      <TextField
-        variant="standard"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        fullWidth
-        placeholder="Recipe Name"
-        className={classes.title}
-      />
+      <RecipeName value={title} onChange={setTitle} editable={true} />
       <DynamicList
         valueList={ingredients}
         onChange={setIngredients}
