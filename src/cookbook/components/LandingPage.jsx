@@ -5,7 +5,7 @@ import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import { fetchData, fetchJsonData } from "../../utilities";
 import { DESTROY_RECIPE_URL, GET_RECIPES_URL } from "../../constants";
 import { connect } from "react-redux";
-import { setUserAuthenticated } from "../../actions";
+import { setUserAuthenticated } from "../../reduxStore/actions";
 import {
   Button,
   Container,

@@ -13,7 +13,7 @@ import {
 import { LinkContainer } from "react-router-bootstrap";
 import UserListItem from "./UserListItem";
 import { connect } from "react-redux";
-import { setUserAuthenticated } from "../../actions";
+import { setUserAuthenticated } from "../../reduxStore/actions";
 
 function UserList({ setUserAuthenticated }) {
   let { url } = useRouteMatch();

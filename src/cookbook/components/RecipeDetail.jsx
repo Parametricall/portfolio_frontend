@@ -4,7 +4,7 @@ import { getData, splitArrayIntoChunks } from "../../utilities";
 import { FETCH_RECIPE_URL } from "../../constants";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { setUserAuthenticated } from "../../actions";
+import { setUserAuthenticated } from "../../reduxStore/actions";
 import DynamicList from "../../components/DynamicList";
 import Ingredient from "./Ingredient";
 import { Grid } from "@material-ui/core";

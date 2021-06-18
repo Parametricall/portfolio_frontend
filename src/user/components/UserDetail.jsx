@@ -6,7 +6,7 @@ import { Form, Col, Container, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { RETRIEVE_USERS_URL, UPDATE_USERS_URL } from "../../constants";
 import { connect } from "react-redux";
-import { setUserAuthenticated } from "../../actions";
+import { setUserAuthenticated } from "../../reduxStore/actions";
 
 function UserDetail(props) {
   let { userId } = useParams();

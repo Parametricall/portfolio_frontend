@@ -1,42 +1,49 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
+import {
+  BrowserRouter as Router,
+  Link as RouterLink,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import User from "./user/components";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import Login from "./user/components/Login";
 import Logout from "./user/components/Logout";
 import { postData } from "./utilities";
 import { GET_TOKEN_URL } from "./constants";
-import { NavDropdown } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
 import Cookbook from "./cookbook/components";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SnakeGame from "./snakeGame/components/SnakeGame";
-import { AppBar, IconButton, Link, makeStyles, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import {
+  AppBar,
+  IconButton,
+  Link,
+  makeStyles,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
-
 
 const useStyles = makeStyles((theme) => ({
   title: {
     display: "none",
     [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
+      display: "block",
+    },
   },
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   linkHover: {
     "&:hover": {
       color: "unset",
-      textDecorationColor: "unset"
-    }
-  }
+      textDecorationColor: "unset",
+    },
+  },
 }));
-
 
 function App() {
   const classes = useStyles();
@@ -85,9 +92,19 @@ function App() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem component={RouterLink} to={`/users/${user?.user_id}`} onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem component={RouterLink} to="/users" onClick={handleMenuClose}>Users</MenuItem>
-      <MenuItem component={RouterLink} to="/logout" onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem
+        component={RouterLink}
+        to={`/users/${user?.user_id}`}
+        onClick={handleMenuClose}
+      >
+        Profile
+      </MenuItem>
+      <MenuItem component={RouterLink} to="/users" onClick={handleMenuClose}>
+        Users
+      </MenuItem>
+      <MenuItem component={RouterLink} to="/logout" onClick={handleMenuClose}>
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -97,7 +114,12 @@ function App() {
         <AppBar position="static">
           <Toolbar>
             <Typography className={classes.title} variant="h6" noWrap>
-              <Link className={classes.linkHover} color="inherit" component={RouterLink} to="/home">
+              <Link
+                className={classes.linkHover}
+                color="inherit"
+                component={RouterLink}
+                to="/home"
+              >
                 Home
               </Link>
             </Typography>

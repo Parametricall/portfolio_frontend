@@ -32,8 +32,13 @@ export async function fetchData(url, method, body) {
   if (body) {
     fetchObject.body = JSON.stringify(body);
   }
+
   try {
-    return await fetch(url, fetchObject);
+    const response = await fetch(url, fetchObject);
+    if (response.status === 401) {
+      // set user authenticated to false
+    }
+    return response;
   } catch (e) {
     console.warn(e);
     return {};
