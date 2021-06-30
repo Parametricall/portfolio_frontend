@@ -17,6 +17,7 @@ import Method from "./Method";
 import RecipeName from "./RecipeName";
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
+import UserPermissions from "../../components/UserPermissions";
 
 const useStyles = makeStyles((theme) => ({
   editIcons: {
@@ -70,14 +71,16 @@ function RecipeDetail({ setUserAuthenticated }) {
 
   return (
     <Container className="recipe-detail-container">
-      <div className={classes.editIcons}>
-        <IconButton aria-label="edit" onClick={() => setEditable(!editable)}>
-          <EditIcon />
-        </IconButton>
-        <IconButton aria-label="save" onClick={handleUpdateRecipe}>
-          <SaveIcon />
-        </IconButton>
-      </div>
+      <UserPermissions permissions={["cookbook.change_recipe"]}>
+        <div className={classes.editIcons}>
+          <IconButton aria-label="edit" onClick={() => setEditable(!editable)}>
+            <EditIcon />
+          </IconButton>
+          <IconButton aria-label="save" onClick={handleUpdateRecipe}>
+            <SaveIcon />
+          </IconButton>
+        </div>
+      </UserPermissions>
 
       <RecipeName
         value={recipeName}
@@ -96,9 +99,9 @@ function RecipeDetail({ setUserAuthenticated }) {
         />
       ) : (
         <Grid container>
-          {ingredientChunks.map((chunk) => {
+          {ingredientChunks.map((chunk, index) => {
             return (
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={6} key={index}>
                 <DynamicList
                   valueList={chunk}
                   onChange={setIngredients}

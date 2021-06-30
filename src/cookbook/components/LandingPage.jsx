@@ -4,7 +4,7 @@ import "../style.css";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import { fetchData, fetchJsonData } from "../../utilities";
 import { DESTROY_RECIPE_URL, GET_RECIPES_URL } from "../../constants";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { setUserAuthenticated } from "../../reduxStore/actions";
 import {
   Button,
@@ -19,6 +19,12 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Alert from "@material-ui/lab/Alert";
+import {
+  admin_role,
+  guest_role,
+  userInGroups,
+} from "../../components/Authorization";
+import UserPermissions from "../../components/UserPermissions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
 function LandingPage() {
   const classes = useStyles();
   let { url } = useRouteMatch();
+
+  const user = useSelector((state) => state.user);
+
+  const adminUser = userInGroups(user, [admin_role, guest_role]);
 
   const [recipes, setRecipes] = useState([]);
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -77,14 +87,19 @@ function LandingPage() {
   return (
     <Container maxWidth="md">
       <div className={classes.root}>
-        <Button
-          color="primary"
-          variant="outlined"
-          component={RouterLink}
-          to={`${url}/create`}
-        >
-          Create Recipe
-        </Button>
+        {adminUser && (
+          <UserPermissions permissions={["cookbook.add_recipe"]}>
+            <Button
+              color="primary"
+              variant="outlined"
+              component={RouterLink}
+              to={`${url}/create`}
+            >
+              Create Recipe
+            </Button>
+          </UserPermissions>
+        )}
+
         <div className={classes.list}>
           <List>
             {recipes.map((recipe) => (
@@ -97,13 +112,15 @@ function LandingPage() {
               >
                 <ListItemText primary={recipe.name} />
                 <ListItemSecondaryAction>
-                  <IconButton
-                    onClick={(e) => handleDeleteRecipe(e, recipe.id)}
-                    edge="end"
-                    aria-label="delete"
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  <UserPermissions permissions={["cookbook.delete_recipe"]}>
+                    <IconButton
+                      onClick={(e) => handleDeleteRecipe(e, recipe.id)}
+                      edge="end"
+                      aria-label="delete"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </UserPermissions>
                 </ListItemSecondaryAction>
               </ListItem>
             ))}

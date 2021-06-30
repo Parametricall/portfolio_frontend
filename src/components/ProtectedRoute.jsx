@@ -1,10 +1,11 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { connect } from "react-redux";
-import { setUserAuthenticated } from "../reduxStore/actions";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { setUser2, setUserAuthenticated } from "../reduxStore/actions";
+import { getuserDetails } from "./Authorization";
 
-function ProtectedRoute(props) {
-  const { children, setUserAuthenticated, path, ...rest } = props;
+async function ProtectedRoute(props) {
+  const { children, setUserAuthenticated, path, permissions, ...rest } = props;
 
   const authenticated = localStorage.getItem("user");
 

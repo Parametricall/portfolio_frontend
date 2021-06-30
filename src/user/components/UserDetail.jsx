@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { formatDate, getData, updateData } from "../../utilities";
+import {
+  fetchJsonData,
+  formatDate,
+  getData,
+  updateData,
+} from "../../utilities";
 
 import { Form, Col, Container, Button } from "react-bootstrap";
 
@@ -24,21 +29,26 @@ function UserDetail(props) {
   const [lastLogin, setLastLogin] = useState(null);
   const [dateJoined, setDateJoined] = useState(null);
 
-  useEffect(() => {
-    getData(setUserAuthenticated, `${RETRIEVE_USERS_URL}${userId}/`).then(
-      (json) => {
-        setUsername(json.username);
-        setFirstName(json.first_name);
-        setLastName(json.last_name);
-        setEmail(json.email);
-        setSuperUser(json.is_superuser);
-        setStaff(json.is_staff);
-        setActive(json.is_active);
-        setLastLogin(json.last_login);
-        setDateJoined(json.date_joined);
-      }
+  const fetchUser = async () => {
+    const userResponse = await fetchJsonData(
+      `${RETRIEVE_USERS_URL}${userId}/`,
+      "GET"
     );
-  }, [userId, setUserAuthenticated]);
+
+    setUsername(userResponse.username);
+    setFirstName(userResponse.first_name);
+    setLastName(userResponse.last_name);
+    setEmail(userResponse.email);
+    setSuperUser(userResponse.is_superuser);
+    setStaff(userResponse.is_staff);
+    setActive(userResponse.is_active);
+    setLastLogin(userResponse.last_login);
+    setDateJoined(userResponse.date_joined);
+  };
+
+  useEffect(() => {
+    fetchUser().then();
+  }, [fetchUser]);
 
   const updateUser = () => {
     const data = {

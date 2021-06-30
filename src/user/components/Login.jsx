@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { setUserAuthenticated } from "../../reduxStore/actions";
-import { postData } from "../../utilities";
-import { GET_TOKEN_URL } from "../../constants";
+import { connect, useDispatch } from "react-redux";
+import { setUser2, setUserAuthenticated } from "../../reduxStore/actions";
+import { fetchJsonData, postData } from "../../utilities";
+import { GET_TOKEN_URL, RETRIEVE_USERS_URL } from "../../constants";
 
 function Login(props) {
+  const dispatch = useDispatch();
+
   const { setUser } = props;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +34,12 @@ function Login(props) {
       localStorage.setItem("user", JSON.stringify(response));
       setRedirect("/");
     }
+    const userId = response.user_id;
+    const userResponse = await fetchJsonData(
+      `${RETRIEVE_USERS_URL}${userId}/`,
+      "GET"
+    );
+    dispatch(setUser2({ ...userResponse, isAuthenticated: true }));
   };
 
   return (
