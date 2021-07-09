@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+// @ts-ignore
 function LandingPage() {
     const classes = useStyles();
     const { url } = useRouteMatch();
@@ -48,8 +49,8 @@ function LandingPage() {
     const [snackbarText, setSnackbarText] = useState<any>(null);
 
     const fetchAllRecipes = useCallback(async () => {
-        const recipes = await fetchJsonData(GET_RECIPES_URL, 'GET');
-        if (recipes) setRecipes(recipes);
+        const allRecipes = await fetchJsonData(GET_RECIPES_URL, 'GET');
+        if (allRecipes) setRecipes(allRecipes);
         else {
             setRecipes([]);
             setSnackbarText('Failed to load recipes!');
@@ -80,7 +81,6 @@ function LandingPage() {
         fetchAllRecipes().then();
     }, [fetchAllRecipes]);
 
-    // @ts-ignore
     return (
         <Container maxWidth="md">
             <div className={classes.root}>
@@ -110,7 +110,6 @@ function LandingPage() {
                             >
                                 <ListItemText primary={recipe.name} />
                                 <ListItemSecondaryAction>
-                                    {/* // @ts-ignore */}
                                     <UserPermissions permissions={['cookbook.delete_recipe']}>
                                         <IconButton
                                             onClick={(e) => handleDeleteRecipe(e, recipe.id)}
