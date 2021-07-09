@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import { setUser2 } from "../../reduxStore/actions";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser2 } from '../../reduxStore/actions';
 
 function Logout() {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    localStorage.clear();
-    dispatch(setUser2({ isAuthenticated: false }));
-  }, [dispatch]);
+    useEffect(() => {
+        localStorage.clear();
+        dispatch(setUser2({ isAuthenticated: false }));
+    }, [dispatch]);
 
-  return <h2>You have successfully logged out</h2>;
+    return <h2>You have successfully logged out</h2>;
 }
 
 export default Logout;

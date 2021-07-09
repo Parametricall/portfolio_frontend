@@ -1,9 +1,9 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { setUser2 } from "../reduxStore/actions";
-import { fetchJsonData } from "../utilities";
-import { RETRIEVE_USERS_URL } from "../constants";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { setUser2 } from '../reduxStore/actions';
+import { fetchJsonData } from '../utilities';
+import { RETRIEVE_USERS_URL } from '../constants';
 
 // export function Authorisation(allowedRoles) {
 //   const user = useSelector((state) => state.user);
@@ -23,60 +23,58 @@ import { RETRIEVE_USERS_URL } from "../constants";
 // }
 
 export const getuserDetails = async () => {
-  const token = localStorage.getItem("user");
-  const user = sessionStorage.getItem("user");
+    const token = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
 
-  if (user) {
-    return { action: "updateStore", user };
-  }
+    if (user) {
+        return { action: 'updateStore', user };
+    }
 
-  if (token) {
+    if (token) {
     // fetch user and update store
-    const userId = JSON.parse(token).user_id;
-    const userObj = await fetchJsonData(
-      `${RETRIEVE_USERS_URL}${userId}/`,
-      "GET"
-    );
-    return { action: "updateStore", userObj };
-  }
+        const userId = JSON.parse(token).user_id;
+        const userObj = await fetchJsonData(
+            `${RETRIEVE_USERS_URL}${userId}/`,
+            'GET',
+        );
+        return { action: 'updateStore', userObj };
+    }
 
-  return { action: "login" };
+    return { action: 'login' };
 };
 
 export const userInGroups = (user, groups) => {
-  const userGroups = user.groups || [];
-  return userGroups.some((group) => groups.indexOf(group) !== -1);
+    const userGroups = user.groups || [];
+    return userGroups.some((group) => groups.indexOf(group) !== -1);
 };
 
 export async function Authorisation(props) {
-  const { Component, componentProps, allowedGroups } = props;
+    const { Component, componentProps, allowedGroups } = props;
 
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  if (!user.groups) {
-    const action = await getuserDetails();
-    if (action.action === "login") {
-      return <Redirect to="/login" />;
-    } else {
-      dispatch(setUser2(action.user));
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    if (!user.groups) {
+        const action = await getuserDetails();
+        if (action.action === 'login') {
+            return <Redirect to="/login" />;
+        }
+        dispatch(setUser2(action.user));
     }
-  }
 
-  const userAllowed = userInGroups(user, allowedGroups);
+    const userAllowed = userInGroups(user, allowedGroups);
 
-  if (userAllowed) {
-    return <Component {...componentProps} />;
-  } else {
+    if (userAllowed) {
+        return <Component {...componentProps} />;
+    }
     return <Redirect to="/login" />;
-  }
 }
 
 export function AdminUser(props) {
-  return <Authorisation {...props} allowedGroups={[admin_role]} />;
+    return <Authorisation {...props} allowedGroups={[admin_role]} />;
 }
 
 export function GuestUser(props) {
-  return <Authorisation {...props} allowedGroups={[admin_role, guest_role]} />;
+    return <Authorisation {...props} allowedGroups={[admin_role, guest_role]} />;
 }
 
 export const admin_role = 1;
