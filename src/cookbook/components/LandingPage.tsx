@@ -84,19 +84,16 @@ function LandingPage() {
     return (
         <Container maxWidth="md">
             <div className={classes.root}>
-                {adminUser && (
-                // @ts-ignore
-                    <UserPermissions permissions={['cookbook.add_recipe']}>
-                        <Button
-                            color="primary"
-                            variant="outlined"
-                            component={RouterLink}
-                            to={`${url}/create`}
-                        >
-                            Create Recipe
-                        </Button>
-                    </UserPermissions>
-                )}
+                <UserPermissions permissions={['cookbook.add_recipe']}>
+                    <Button
+                        color="primary"
+                        variant="outlined"
+                        component={RouterLink}
+                        to={`${url}/create`}
+                    >
+                        Create Recipe
+                    </Button>
+                </UserPermissions>
 
                 <div className={classes.list}>
                     <List>
