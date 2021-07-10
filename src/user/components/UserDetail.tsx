@@ -10,15 +10,13 @@ import { RETRIEVE_USERS_URL, UPDATE_USERS_URL } from '../../constants';
 import {
     fetchJsonData,
     formatDate,
-    getData,
     updateData,
 } from '../../utilities';
 import { setUserAuthenticated } from '../../reduxStore/actions';
 
-function UserDetail(props) {
+function UserDetail() {
+    // @ts-ignore
     const { userId } = useParams();
-
-    const { setUserAuthenticated } = props;
 
     // const [user, setUser] = useState(null);
     const [username, setUsername] = useState('');

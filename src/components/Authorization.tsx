@@ -22,6 +22,13 @@ import { RETRIEVE_USERS_URL } from '../constants';
 //   };
 // }
 
+interface UserInterface {
+    user_permissions: string[],
+    isAuthenticated: boolean
+    id: number,
+    groups: any
+}
+
 export const getuserDetails = async () => {
     const token = localStorage.getItem('user');
     const user = sessionStorage.getItem('user');
@@ -51,7 +58,7 @@ export const userInGroups = (user, groups) => {
 export async function Authorisation(props) {
     const { Component, componentProps, allowedGroups } = props;
 
-    const user = useSelector((state) => state.user);
+    const user = useSelector((state: {user: UserInterface}) => state.user);
     const dispatch = useDispatch();
     if (!user.groups) {
         const action = await getuserDetails();
@@ -64,21 +71,22 @@ export async function Authorisation(props) {
     const userAllowed = userInGroups(user, allowedGroups);
 
     if (userAllowed) {
+        // eslint-disable-next-line react/jsx-props-no-spreading
         return <Component {...componentProps} />;
     }
     return <Redirect to="/login" />;
 }
 
-export function AdminUser(props) {
-    return <Authorisation {...props} allowedGroups={[admin_role]} />;
-}
+// export function AdminUser(props) {
+//     return <Authorisation {...props} allowedGroups={[admin_role]} />;
+// }
+//
+// export function GuestUser(props) {
+//     return <Authorisation {...props} allowedGroups={[admin_role, guest_role]} />;
+// }
 
-export function GuestUser(props) {
-    return <Authorisation {...props} allowedGroups={[admin_role, guest_role]} />;
-}
-
-export const admin_role = 1;
-export const guest_role = 2;
+export const adminRole = 1;
+export const guestRole = 2;
 
 // export const AdminUser = Authorisation([admin_role]);
 // export const GuestUser = Authorisation([admin_role, guest_role]);

@@ -13,7 +13,7 @@ function SignUp() {
 
     const createUser = () => {
         postData(CREATE_USER_URL, {username, password, confirm_password: password2})
-            .then((json) => {
+            .then(() => {
                 setRedirect(true);
             });
     };
@@ -37,7 +37,10 @@ function SignUp() {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control onChange={(e) => setPassword2(e.target.value)} value={password2} />
+                    <Form.Control
+                        onChange={(e) => setPassword2(e.target.value)}
+                        value={password2}
+                    />
                 </Form.Group>
                 <Button variant="primary" type="button" onClick={createUser}>
                     SignUp

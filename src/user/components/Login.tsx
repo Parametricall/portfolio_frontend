@@ -26,6 +26,7 @@ function Login(props) {
         localStorage.clear();
         const response = await postData(GET_TOKEN_URL, user);
 
+        // eslint-disable-next-line no-prototype-builtins
         if (response.hasOwnProperty('non_field_errors')) {
             // unable to authenticate
             setError(response.non_field_errors);

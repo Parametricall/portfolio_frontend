@@ -15,23 +15,28 @@ import { DESTROY_USERS_URL, FETCH_USERS_URL } from '../../constants';
 import { deleteData, getData } from '../../utilities';
 import { setUserAuthenticated } from '../../reduxStore/actions';
 
-function UserList({ setUserAuthenticated }) {
+function UserList({ setUserAuthenticated: setUserAuthenticatedOld }) {
     const { url } = useRouteMatch();
 
     const [users, setUsers] = useState(null);
     const [selected, setSelected] = useState([]);
 
-    const fetchData = useCallback(async (setUserAuthenticated) => getData(setUserAuthenticated, FETCH_USERS_URL), []);
+    const fetchData = useCallback(
+        async (setUserAuthenticated2) => getData(setUserAuthenticated2, FETCH_USERS_URL),
+        [],
+    );
 
     React.useEffect(() => {
-        fetchData(setUserAuthenticated).then((userData) => setUsers(userData));
-    }, [fetchData, setUserAuthenticated]);
+        fetchData(setUserAuthenticatedOld).then((userData) => setUsers(userData));
+    }, [fetchData, setUserAuthenticatedOld]);
 
     const deleteUsers = async () => {
+        // eslint-disable-next-line no-restricted-syntax
         for (const id of selected) {
-            await deleteData(`${DESTROY_USERS_URL}${id}/`).catch((e) => console.log(e));
+            // eslint-disable-next-line no-await-in-loop
+            await deleteData(`${DESTROY_USERS_URL}${id}/`).catch();
         }
-        fetchData(setUserAuthenticated).then((userData) => setUsers(userData));
+        fetchData(setUserAuthenticatedOld).then((userData) => setUsers(userData));
     };
 
     const userSelected = (checked, userId) => {

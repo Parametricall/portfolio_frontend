@@ -23,8 +23,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function RecipeDetail({ setUserAuthenticated }) {
+function RecipeDetail({ setUserAuthenticatedOld }) {
     const classes = useStyles();
+    // @ts-ignore
     const { recipeId } = useParams();
 
     const [editable, setEditable] = useState(false);
@@ -34,14 +35,14 @@ function RecipeDetail({ setUserAuthenticated }) {
     const [methods, setMethods] = useState([]);
 
     useEffect(() => {
-        getData(setUserAuthenticated, `${FETCH_RECIPE_URL}${recipeId}/`).then(
+        getData(setUserAuthenticatedOld, `${FETCH_RECIPE_URL}${recipeId}/`).then(
             (json) => {
                 setRecipeName(json.name);
                 setIngredients(json.ingredients);
                 setMethods(json.methods);
             },
         );
-    }, [recipeId, setUserAuthenticated]);
+    }, [recipeId, setUserAuthenticatedOld]);
 
     let ingredientChunks;
     if (ingredients) {
@@ -91,10 +92,12 @@ function RecipeDetail({ setUserAuthenticated }) {
                     idKey="id"
                     Component={Ingredient}
                     editable={editable}
+                    emptyChildCallback={() => {}}
                 />
             ) : (
                 <Grid container>
                     {ingredientChunks.map((chunk, index) => (
+                        // eslint-disable-next-line react/no-array-index-key
                         <Grid item xs={12} md={6} key={index}>
                             <DynamicList
                                 valueList={chunk}
@@ -102,6 +105,7 @@ function RecipeDetail({ setUserAuthenticated }) {
                                 idKey="id"
                                 Component={Ingredient}
                                 editable={editable}
+                                emptyChildCallback={() => {}}
                             />
                         </Grid>
                     ))}
@@ -114,6 +118,7 @@ function RecipeDetail({ setUserAuthenticated }) {
                 idKey="id"
                 Component={Method}
                 editable={editable}
+                emptyChildCallback={() => {}}
             />
         </Container>
     );

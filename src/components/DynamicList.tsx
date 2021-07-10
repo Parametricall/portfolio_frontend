@@ -11,6 +11,16 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
+interface DynamicListInterface {
+    valueList: any[],
+    onChange: Function,
+    emptyChildCallback: Function,
+    idKey: string,
+    Component: any,
+    addItemBtnStyle: object,
+    editable: boolean,
+}
+
 /**
  * Wraps a list of values into a dynamic list where rows can be added and
  * deleted.
@@ -18,7 +28,7 @@ const useStyles = makeStyles(() => ({
  * @param props
  * @returns {JSX.Element}
  */
-function DynamicList(props) {
+function DynamicList(props: DynamicListInterface) {
     const {
         valueList,
         onChange,
@@ -65,11 +75,13 @@ function DynamicList(props) {
         </ListItem>
     ));
 
+    // @ts-ignore
     return (
         <List>
             {listItems}
             {editable ? (
                 <IconButton
+                    // @ts-ignore
                     className={addItemBtnStyle || classes.addItemBtnStyle}
                     onClick={addListItem}
                 >

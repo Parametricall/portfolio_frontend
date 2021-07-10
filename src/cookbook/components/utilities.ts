@@ -1,5 +1,5 @@
-import { fetchData, fetchJsonData } from "../../utilities";
-import { CREATE_RECIPE_URL } from "../../constants";
+import { fetchJsonData } from '../../utilities';
+import { CREATE_RECIPE_URL } from '../../constants';
 
 /**
  * @typedef {Object} Food
@@ -33,10 +33,11 @@ import { CREATE_RECIPE_URL } from "../../constants";
  * @returns {Promise<Recipe|{}>}
  */
 export async function createRecipe(newRecipe) {
-  const response = await fetchJsonData(CREATE_RECIPE_URL, "POST", newRecipe);
-  if (response) {
-    return response;
-  } else {
+    const response = await fetchJsonData(CREATE_RECIPE_URL, 'POST', newRecipe);
+    if (response) {
+        return response;
+    }
     return null;
-  }
 }
+
+export const dummy = () => {};

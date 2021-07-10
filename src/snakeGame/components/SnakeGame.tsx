@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import Canvas from './Canvas';
 
-function SnakeGame(props) {
+function SnakeGame() {
     return (
         <Container>
             <Canvas />

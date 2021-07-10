@@ -2,7 +2,18 @@ import { FETCH_USERS_URL } from './constants';
 
 export function formatDate(dateString) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    // @ts-ignore
     return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
+function getTokenFromStorage() {
+    let token = localStorage.getItem('user');
+
+    if (token) {
+        token = JSON.parse(token).token;
+        return { Authorization: `Token ${token}` };
+    }
+    return null;
 }
 
 function handleJSONResponse(setUserAuthenticated, json, status) {
@@ -15,7 +26,7 @@ function handleJSONResponse(setUserAuthenticated, json, status) {
     return json;
 }
 
-export async function fetchData(url, method, body) {
+export async function fetchData(url, method, body?) {
     const fetchObject = {
         method, // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
@@ -30,29 +41,35 @@ export async function fetchData(url, method, body) {
     };
 
     if (body) {
+        // @ts-ignore
         fetchObject.body = JSON.stringify(body);
     }
 
     try {
+        // @ts-ignore
         const response = await fetch(url, fetchObject);
         if (response.status === 401) {
             // set user authenticated to false
         }
         return response;
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn(e);
         return {};
     }
 }
 
-export async function fetchJsonData(url, method, body) {
+export async function fetchJsonData(url, method, body?: object) {
     const response = await fetchData(url, method, body);
 
+    // @ts-ignore
     if (!response || !response.ok) return {};
 
     try {
+        // @ts-ignore
         return response.json();
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn(e);
         return {};
     }
@@ -76,16 +93,8 @@ export async function getData(setUserAuthenticated, url = FETCH_USERS_URL) {
         const json = await response.json();
         return handleJSONResponse(setUserAuthenticated, json, response.status);
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn(e);
-    }
-}
-
-function getTokenFromStorage() {
-    let token = localStorage.getItem('user');
-
-    if (token) {
-        token = JSON.parse(token).token;
-        return { Authorization: `Token ${token}` };
     }
     return null;
 }
@@ -142,6 +151,7 @@ export async function deleteData(url) {
         redirect: 'follow', // manual, *follow, error
         referrer: 'no-referrer', // no-referrer, *client
     }).catch((e) => {
+        // eslint-disable-next-line no-console
         console.log(e);
     });
 }

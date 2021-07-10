@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import '../style.css';
 import { Link as RouterLink, useRouteMatch } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import {
     Button,
     Container,
@@ -19,7 +19,7 @@ import Alert from '@material-ui/lab/Alert';
 import { setUserAuthenticated } from '../../reduxStore/actions';
 import { DESTROY_RECIPE_URL, GET_RECIPES_URL } from '../../constants';
 import { fetchData, fetchJsonData } from '../../utilities';
-import { admin_role, guest_role, userInGroups } from '../../components/Authorization';
+// import { adminRole, guest_role, userInGroups } from '../../components/Authorization';
 import UserPermissions from '../../components/UserPermissions';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,9 +40,9 @@ function LandingPage() {
     const classes = useStyles();
     const { url } = useRouteMatch();
 
-    const user = useSelector((state: any) => state.user);
+    // const user = useSelector((state: any) => state.user);
 
-    const adminUser = userInGroups(user, [admin_role, guest_role]);
+    // const adminUser = userInGroups(user, [adminRole, guest_role]);
 
     const [recipes, setRecipes] = useState([]);
     const [showSnackbar, setShowSnackbar] = useState<any>(false);

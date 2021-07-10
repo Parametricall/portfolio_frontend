@@ -1,20 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
-    BrowserRouter as Router,
-    Link as RouterLink,
-    Redirect,
-    Route,
-    Switch,
+    BrowserRouter as Router, Link as RouterLink, Redirect, Route, Switch,
 } from 'react-router-dom';
 import {
-    AppBar,
-    IconButton,
-    Link,
-    makeStyles,
-    Menu,
-    MenuItem,
-    Toolbar,
-    Typography,
+    AppBar, IconButton, Link, makeStyles, Menu, MenuItem, Toolbar, Typography,
 } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,31 +38,38 @@ const useStyles = makeStyles((theme) => ({
 
 async function updateStoreFromUserToken(dispatch) {
     const token = localStorage.getItem('user');
-    const user = sessionStorage.getItem('user');
+    // const user = sessionStorage.getItem('user');
 
     if (token) {
         const userId = JSON.parse(token).user_id;
         const userObj = await fetchJsonData(
             `${RETRIEVE_USERS_URL}${userId}/`,
             'GET',
+            null,
         );
         // todo: handle error response here
         dispatch(setUser2({ ...userObj, isAuthenticated: true }));
     }
 }
 
+interface UserInterface {
+    user_permissions: string[],
+    isAuthenticated: boolean
+    id: number,
+}
+
 function App() {
     const classes = useStyles();
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
-    const currentUser = useSelector((state) => state.user);
+    const currentUser = useSelector((state:{user: UserInterface}) => state.user);
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (!currentUser.isAuthenticated) {
-            updateStoreFromUserToken(dispatch);
+            updateStoreFromUserToken(dispatch).then();
         }
     });
 
@@ -100,17 +96,17 @@ function App() {
     //     }
     // }, []);
 
-    const logout = () => {
-        localStorage.clear();
-        dispatch(setUser2({ isAuthenticated: false }));
-        // setUser(null);
-    };
+    // const logout = () => {
+    //     localStorage.clear();
+    //     dispatch(setUser2({ isAuthenticated: false }));
+    //     // setUser(null);
+    // };
 
     const handleLogin = async (e, username, password) => {
         e.preventDefault();
-        const user = { username, password };
+        const userCred = { username, password };
         localStorage.clear();
-        const response = await postData(GET_TOKEN_URL, user).then((json) => json);
+        const response = await postData(GET_TOKEN_URL, userCred).then((json) => json);
         // setUser(response);
         localStorage.setItem('user', JSON.stringify(response));
     };

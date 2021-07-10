@@ -1,5 +1,5 @@
 // URLs
-export const HOST_URL = "http://localhost:8000";
+export const HOST_URL = 'http://localhost:8000';
 export const GET_TOKEN_URL = `${HOST_URL}/api/token/`;
 export const CREATE_USER_URL = `${HOST_URL}/api/user/create_user/`;
 export const FETCH_USERS_URL = `${HOST_URL}/api/user/users/`;

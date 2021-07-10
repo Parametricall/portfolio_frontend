@@ -4,9 +4,6 @@ import {
 } from 'react-bootstrap';
 
 import { LinkContainer } from 'react-router-bootstrap';
-import food from '../images/food.png';
-import chatBot from '../images/chat_bot.png';
-import phase10 from '../images/phase_10.png';
 
 function LandingPage() {
     return (
@@ -43,6 +40,7 @@ function LandingPage() {
                 {/*  <Card.Body> */}
                 {/*    <Card.Title>Phase 10 (Coming in 2021)</Card.Title> */}
                 {/*    <Card.Text> */}
+                {/* eslint-disable-next-line max-len */}
                 {/*      My attempt at making a version of the Phase 10 card game, which will suport multiple players. */}
                 {/*    </Card.Text> */}
                 {/*  </Card.Body> */}
@@ -81,6 +79,7 @@ function LandingPage() {
             {/* //     <Card.Body> */}
             {/* //       <Card.Title>Web Scraper (Coming in 2021)</Card.Title> */}
             {/* //       <Card.Text> */}
+            {/* eslint-disable-next-line max-len */}
             {/* //         An app that will scrap the internet for certain information. Maybe cheapest airplane prices, or */}
             {/* //         an alarm for when a certain item goes on sale. */}
             {/*      </Card.Text> */}

@@ -18,7 +18,7 @@ function CreateUser() {
         postData(CREATE_USER_URL, {
             username, first_name: firstName, last_name: lastName, email,
         })
-            .then((json) => {
+            .then(() => {
                 setRedirect(true);
             });
     };
