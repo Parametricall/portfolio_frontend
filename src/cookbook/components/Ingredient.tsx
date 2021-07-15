@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreatableSelect from 'react-select/creatable';
-import { fetchJsonData, getData } from '../../utilities';
+import { fetchJsonData } from '../../utilities';
 import { FOOD_URL } from '../../constants';
 
 const useStyles = makeStyles(() => ({
@@ -37,8 +37,7 @@ function Ingredient({
     // Probably do this fetch higher up. Don't want to be sending the same request
     // every time user adds a new ingredient line.
     const getOptions = async () => {
-        const response = await getData(() => {},
-            FOOD_URL);
+        const response = await fetchJsonData(FOOD_URL, 'GET');
 
         setOptions(
             response.map((food) => ({ value: food.id, label: food.name })),

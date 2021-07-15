@@ -16,13 +16,7 @@ function getTokenFromStorage() {
     return null;
 }
 
-function handleJSONResponse(setUserAuthenticated, json, status) {
-    if (status !== 200) {
-        setUserAuthenticated(false);
-    } else {
-        setUserAuthenticated(true);
-    }
-
+function handleJSONResponse(setUserAuthenticated, json) {
     return json;
 }
 
@@ -91,7 +85,7 @@ export async function getData(setUserAuthenticated, url = FETCH_USERS_URL) {
         });
 
         const json = await response.json();
-        return handleJSONResponse(setUserAuthenticated, json, response.status);
+        return handleJSONResponse(setUserAuthenticated, json);
     } catch (e) {
         // eslint-disable-next-line no-console
         console.warn(e);

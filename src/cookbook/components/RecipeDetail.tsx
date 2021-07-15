@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function RecipeDetail({ setUserAuthenticatedOld }) {
+function RecipeDetail() {
     const classes = useStyles();
     // @ts-ignore
     const { recipeId } = useParams();
@@ -35,14 +35,14 @@ function RecipeDetail({ setUserAuthenticatedOld }) {
     const [methods, setMethods] = useState([]);
 
     useEffect(() => {
-        getData(setUserAuthenticatedOld, `${FETCH_RECIPE_URL}${recipeId}/`).then(
-            (json) => {
-                setRecipeName(json.name);
-                setIngredients(json.ingredients);
-                setMethods(json.methods);
-            },
-        );
-    }, [recipeId, setUserAuthenticatedOld]);
+        const getRecipe = async () => {
+            const response = await fetchJsonData(`${FETCH_RECIPE_URL}${recipeId}/`, 'GET');
+            setRecipeName(response.name);
+            setIngredients(response.ingredients);
+            setMethods(response.methods);
+        };
+        getRecipe().then();
+    }, [recipeId]);
 
     let ingredientChunks;
     if (ingredients) {

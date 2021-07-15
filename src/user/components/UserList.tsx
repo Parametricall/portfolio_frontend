@@ -1,18 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import {
-    Button,
-    Col,
-    Container,
-    InputGroup,
-    ListGroup,
-    Row,
+    Button, Col, Container, InputGroup, ListGroup, Row,
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 import UserListItem from './UserListItem';
 import { DESTROY_USERS_URL, FETCH_USERS_URL } from '../../constants';
-import { deleteData, getData } from '../../utilities';
+import { deleteData, fetchJsonData } from '../../utilities';
 import { setUserAuthenticated } from '../../reduxStore/actions';
 
 function UserList({ setUserAuthenticated: setUserAuthenticatedOld }) {
@@ -22,12 +17,12 @@ function UserList({ setUserAuthenticated: setUserAuthenticatedOld }) {
     const [selected, setSelected] = useState([]);
 
     const fetchData = useCallback(
-        async (setUserAuthenticated2) => getData(setUserAuthenticated2, FETCH_USERS_URL),
+        async () => fetchJsonData(FETCH_USERS_URL, 'GET'),
         [],
     );
 
     React.useEffect(() => {
-        fetchData(setUserAuthenticatedOld).then((userData) => setUsers(userData));
+        fetchData().then((userData) => setUsers(userData));
     }, [fetchData, setUserAuthenticatedOld]);
 
     const deleteUsers = async () => {
@@ -36,7 +31,7 @@ function UserList({ setUserAuthenticated: setUserAuthenticatedOld }) {
             // eslint-disable-next-line no-await-in-loop
             await deleteData(`${DESTROY_USERS_URL}${id}/`).catch();
         }
-        fetchData(setUserAuthenticatedOld).then((userData) => setUsers(userData));
+        fetchData().then((userData) => setUsers(userData));
     };
 
     const userSelected = (checked, userId) => {
