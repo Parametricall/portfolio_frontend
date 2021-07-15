@@ -12,3 +12,4 @@ export const GET_RECIPES_URL = `${HOST_URL}/api/cookbook/recipes/`;
 export const FETCH_RECIPE_URL = `${HOST_URL}/api/cookbook/recipe/`;
 export const DESTROY_RECIPE_URL = `${HOST_URL}/ api/cookbook/destroy/`;
 export const UPDATE_RECIPE_URL = `${HOST_URL}/api/cookbook/update_recipe/`;
+export const FOOD_URL = `${HOST_URL}/api/cookbook/food/`;

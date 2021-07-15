@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
-    IconButton,
-    ListItemSecondaryAction,
-    makeStyles,
-    TextField,
+    IconButton, ListItemSecondaryAction, makeStyles, TextField,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreatableSelect from 'react-select/creatable';
 import { fetchJsonData, getData } from '../../utilities';
+import { FOOD_URL } from '../../constants';
 
 const useStyles = makeStyles(() => ({
     quantity: {
@@ -40,7 +38,7 @@ function Ingredient({
     // every time user adds a new ingredient line.
     const getOptions = async () => {
         const response = await getData(() => {},
-            'http://127.0.0.1:8000/api/cookbook/food/');
+            FOOD_URL);
 
         setOptions(
             response.map((food) => ({ value: food.id, label: food.name })),
@@ -53,7 +51,7 @@ function Ingredient({
 
     const handleCreateNewOption = async (newFood) => {
         const response = await fetchJsonData(
-            'http://127.0.0.1:8000/api/cookbook/food/',
+            FOOD_URL,
             'POST',
             {
                 id: null,
